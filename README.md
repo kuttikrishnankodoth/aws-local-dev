@@ -55,6 +55,13 @@ aws --profile local-emulator s3 mb s3://local-demo
 aws --profile local-emulator s3 ls
 ```
 
+or 
+
+```bash
+aws s3 mb s3://local-demo
+aws s3 ls
+```
+
 Open **S3** in StackPort to see the bucket. To omit `--profile`, answer **yes** to the local shell prompt after setup. Type `exit` when you're done with that shell.
 
 ## Deploy a Lambda with Terraform
