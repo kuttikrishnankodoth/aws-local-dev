@@ -1,0 +1,26 @@
+name: aws-local-dev
+services:
+  emulator:
+    build: .
+    mem_limit: 2g
+    memswap_limit: 2g
+    ports:
+      - "127.0.0.1:9297:9297"
+      - "127.0.0.1:${STACKPORT_UI_PORT:-8081}:8080"
+    volumes:
+      - emulator-files:/home/emulator/.aws/emulator
+  stackport:
+    image: davireis/stackport:latest
+    network_mode: "service:emulator"
+    depends_on:
+      - emulator
+    environment:
+      AWS_ENDPOINT_URL: https://127.0.0.1:9297
+      AWS_REGION: us-east-1
+      STACKPORT_HOST: 0.0.0.0
+      STACKPORT_PORT: "8080"
+      STACKPORT_AWS_EMULATOR_DIR: /emulator
+    volumes:
+      - emulator-files:/emulator:ro
+volumes:
+  emulator-files:
